@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,4 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('logs/count', [LogController::class, 'count_logs'])->name('logsCount');
+Route::post('/auth/register', [AuthController::class, 'createUser'])->name('register');
+Route::post('/auth/login', [AuthController::class, 'loginUser'])->name('login');
+
+Route::get('logs/count', [LogController::class,'count_logs'])
+    ->middleware('auth:sanctum');

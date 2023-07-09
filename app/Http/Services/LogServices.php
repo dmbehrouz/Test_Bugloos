@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Interfaces\LogServiceRepositoryInterface;
+use Illuminate\Support\Facades\Cache;
 
 class LogServices
 {
@@ -16,11 +17,17 @@ class LogServices
     /**
      * @param array $params
      * @return array
-     * @description return count of log depend on conditions.
+     * @description return count of log depend on conditions. If no filters are requested, the number of records will be cached.
      */
     public function countLogs(array $params = [])
     {
-        $result = $this->logServiceRepository->getCountLog($params);
+        if (count($params))
+            $result = $this->logServiceRepository->getCountLog($params);
+        else
+            $result = Cache::remember('countOfLog',now()->addMinutes(5) , function () use ($params) {
+                return $this->logServiceRepository->getCountLog($params);
+            });
+
         return [
             'count' => $result
         ];

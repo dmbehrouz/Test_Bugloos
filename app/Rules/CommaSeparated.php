@@ -32,6 +32,6 @@ class CommaSeparated implements Rule
 
     public function message()
     {
-        return 'The :attribute must be a comma-separated list and you can enter some signs like this; dash(-) and underscore(_)';
+        return 'The :attribute must be a comma-separated list like this; order-service,invoice-service,name1,...';
     }
 }

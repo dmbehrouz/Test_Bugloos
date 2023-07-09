@@ -59,6 +59,7 @@ class ImportLogFileToDatabase extends Command
 
             // Perform bulk insertion within a transaction
             DB::transaction(function () use ($lines) {
+                //Prevent insert duplicate record depend on unique fields.
                 LogService::insertOrIgnore($lines);
             });
         }
