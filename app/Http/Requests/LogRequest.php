@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CommaSeparated;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -26,7 +27,8 @@ class LogRequest extends FormRequest
     public function rules()
     {
         return [
-            'serviceNames' => ['regex:/^[A-Za-z0-9\s\-\_\@\#\&]+$/'],
+//            'serviceNames' => [new CommaSeparated,'regex:/^[A-Za-z0-9\s\-\_\@\#\&]+$/'],
+            'serviceNames' => [new CommaSeparated],
             'statusCode' => ['bail', 'numeric', 'digits:3', 'between:100,599'],
             'startDate' => ['date_format:Y-m-d H:i:s'],
             'endDate' => ['date_format:Y-m-d H:i:s'],

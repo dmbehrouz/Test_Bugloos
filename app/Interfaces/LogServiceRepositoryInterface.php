@@ -15,35 +15,27 @@ interface LogServiceRepositoryInterface
      * @param int $logId
      * @description get data with id
      */
-    public function getLogServiceById(int $logId);
+    public function getLogById(int $logId);
 
     /**
      * @return mixed
      * @param int $logId
      * @description delete record with id
      */
-    public function deleteLogService(int $logId);
+    public function deleteLog(int $logId);
 
     /**
      * @return mixed
      * @param array $logDetails
      * @description create new log record
      */
-    public function createLogService(array $logDetails);
+    public function createLog(array $logDetails);
 
-    /**
-     * @return mixed
-     * @param int $logId
-     * @param array $newDetails
-     * @description update existing record with id
-     */
-    public function updateLogService(int $logId, array $newDetails);
-
-    /**
+     /**
      * @return mixed
      * @param array $conditions
      * @description get count of records based on conditions
      */
-    public function getCountLogService(array $conditions = []);
+    public function getCountLog(array $conditions = []);
 
 }

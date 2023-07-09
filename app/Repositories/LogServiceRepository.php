@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\LogServiceRepositoryInterface;
 use App\Models\LogService;
+use Illuminate\Support\Facades\DB;
 
 class LogServiceRepository implements LogServiceRepositoryInterface
 {
@@ -16,44 +17,65 @@ class LogServiceRepository implements LogServiceRepositoryInterface
     }
 
     /**
-     * @see LogServiceRepositoryInterface::getLogServiceById()
+     * @see LogServiceRepositoryInterface::getLogById()
      */
-    public function getLogServiceById(int $logId)
+    public function getLogById(int $logId)
     {
         return LogService::findOrFail($logId);
     }
 
     /**
-     * @see LogServiceRepositoryInterface::deleteLogService()
+     * @see LogServiceRepositoryInterface::deleteLog()
      */
-    public function deleteLogService(int $logId)
+    public function deleteLog(int $logId)
     {
         LogService::destroy($logId);
     }
 
     /**
-     * @see LogServiceRepositoryInterface::createLogService()
+     * @see LogServiceRepositoryInterface::createLog()
      */
-    public function createLogService(array $logDetails)
+    public function createLog(array $logDetails)
     {
         return LogService::create($logDetails);
     }
 
+
     /**
-     * @see LogServiceRepositoryInterface::updateLogService()
+     * @see LogServiceRepositoryInterface::getCountLog()
      */
-    public function updateLogService(int $logId, array $newDetails)
+    public function getCountLog(array $conditions = [])
     {
-        return LogService::whereId($logId)->update($newDetails);
+        if (count($conditions)){
+            $query = DB::table('log_services')->selectRaw('COUNT(*) as count_log');
+            return $this->prepareConditions($query,$conditions)->pluck('count_log')->first();
+        }
+        else
+            return DB::table('log_services')->selectRaw('COUNT(*) as count_log')->pluck('count_log')->first();
+
     }
 
     /**
-     * @see LogServiceRepositoryInterface::getCountLogService()
+     * @param $query
+     * @param $params
+     * @return mixed
+     * @description Add conditions of table wot query
      */
-    public function getCountLogService(array $conditions=[])
+    private function prepareConditions($query, $params)
     {
+        if( isset($params['startDate']) )
+            $query->where('execute_time' , '>=' , $params['startDate']);
 
-//        return LogService::whereId($logId)->update($newDetails);
+        if( isset($params['endDate']) )
+            $query->where('execute_time' , '<=' , $params['endDate']);
+
+        if( isset($params['statusCode']) )
+            $query->where('status_code' , '=' , $params['statusCode']);
+
+        if( isset($params['serviceNames']) )
+            $query->whereIn('service_name', $params['serviceNames']);
+
+        return $query;
     }
 
 }

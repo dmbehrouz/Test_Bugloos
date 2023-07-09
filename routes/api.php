@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('logs/count', [LogController::class, 'show'])->name('logsCount');
+Route::get('logs/count', [LogController::class, 'count_logs'])->name('logsCount');

@@ -2,24 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Facades\LogsFacade;
 use App\Http\Requests\LogRequest;
 use App\Interfaces\LogServiceRepositoryInterface;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class LogController extends Controller
 {
-    private $LogServiceRepository;
+    private $logServiceRepository;
+
     public function __construct(LogServiceRepositoryInterface $LogServiceRepository)
     {
-        $this->LogServiceRepository = $LogServiceRepository;
-
+        $this->logServiceRepository = $LogServiceRepository;
     }
 
-    public function show(LogRequest $request)
+    public function count_logs(LogRequest $requestFilter)
     {
-        $request->validated();
-        dd('OKKK');
+        $requestFilter->validated();
+        $filter = $requestFilter->only(['statusCode', 'serviceNames', 'startDate', 'endDate']);
+        if (isset($filter['serviceNames']))
+            $filter['serviceNames'] = explode(',', $filter['serviceNames']);
+
+        $result = LogsFacade::countLogs($filter);
+        return response()->json($result);
     }
 }

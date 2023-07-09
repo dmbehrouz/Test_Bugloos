@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        App\Providers\LogServiceProvider::class,
 
         /*
          * Application Service Providers...
