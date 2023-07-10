@@ -49,6 +49,7 @@ Filters in query string
 
 
 ### How to work
+- Install project and rung migrations file
 - You can run command: php artisan log:todb OR call api http://your-localhost/log-to-db for insert logfiles in database
 - Register with email
 - Login and get token
