@@ -40,7 +40,7 @@ class ImportLogFileToDatabase extends Command
      */
     public function handle()
     {
-        $logFile = base_path('public/logs.txt');
+        $logFile = storage_path('logs/logs.txt');
         $batchRecords = 1000; // Number of rows to insert in each batch save
         $file = fopen($logFile, 'r');
 

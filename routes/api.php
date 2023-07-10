@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LogController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,4 +25,8 @@ Route::post('/auth/register', [AuthController::class, 'createUser'])->name('regi
 Route::post('/auth/login', [AuthController::class, 'loginUser'])->name('login');
 
 Route::get('logs/count', [LogController::class,'count_logs'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum')->name('logCounts');
+
+Route::get('log-to-db', function (){
+    Artisan::call('Log:ToDB');
+})->name('logToDB');
