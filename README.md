@@ -22,14 +22,6 @@ Parameter required
 - **email**
 - **password**
 
-### 3 - Register for login
-GET http://your-localhost/auth/register
-
-Parameter required
-- **name**
-- **email**
-- **password**
-
 ### 3 - Login and take token for all other api.
 GET http://your-localhost/auth/register
 
@@ -37,8 +29,7 @@ Parameter required
 - **email**
 - **password**
 
-
-### 4 - Counts of log line
+### 4 - Call Api Counts of log line
 GET http://your-localhost/logs/count
 
 Filters in query string
